@@ -1,0 +1,3 @@
+# Điền link video demo (tối đa 3 phút) theo quy định của đề bài:
+# Ví dụ: https://youtu.be/xxxxxx hoặc Google Drive link (quyền Anyone with the link can view)
+URL_DEMO_VIDEO=
