@@ -115,7 +115,9 @@ Dự án có thời hạn 3 tuần, do đó lộ trình 2 tuần sẽ giúp nhó
 - **Ngày 12-13 (Tài Liệu & Báo Cáo):**
   - **Cả nhóm:** Soạn Slide (áp dụng tỷ lệ 4:3) theo phần được phân công. Quay Video Demo (< 3 phút).
 - **Ngày 14 (Tổng duyệt & Nộp bài):**
-  - **Cả nhóm:** Chạy thử Q&A vấn đáp, đóng gói mã nguồn thành file zip theo đúng chuẩn `AI_midterm_<ID Nhóm>_<ID SV>` và nộp bài.
+  - **Cả nhóm:** Chạy thử Q&A vấn đáp.
+  - **CẢNH BÁO NỘP BÀI:** Đề yêu cầu "All member must submit". Do đó, **TẤT CẢ 4 THÀNH VIÊN** đều phải tự đóng gói mã nguồn thành file zip riêng (tên `AI_midterm_<ID Nhóm>_<ID SV của mình>`) và tự nộp lên hệ thống. Không được để 1 người nộp thay.
+  - **CẢNH BÁO AI:** Tuyệt đối tắt Copilot/ChatGPT khi code. Code phải tự viết, comment bằng tiếng Việt tự nhiên để tránh bị hệ thống quét đạo văn AI đánh 0 điểm.
 
 ---
 
