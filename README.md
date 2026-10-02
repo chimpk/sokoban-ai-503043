@@ -61,7 +61,7 @@ Bộ 10 tài liệu hoàn chỉnh, không để ngỏ bất kỳ câu hỏi nào
 │   ├── 2627-HK1-AI-GK.pdf
 │   └── RUBRIC_GK.docx
 │
-├── docs/                                   # Bộ 9 tài liệu kỹ thuật & giải pháp lý thuyết hoàn chỉnh
+├── docs/                                   # Bộ 10 tài liệu kỹ thuật & giải pháp lý thuyết hoàn chỉnh
 │   ├── 01_Project_Overview_Rubric.md
 │   ├── 02_Technical_Architecture_and_Member_Solutions.md
 │   ├── 03_State_Space_and_Search_Algorithms.md
@@ -93,24 +93,25 @@ Dự án có thời hạn 3 tuần, do đó lộ trình 2 tuần sẽ giúp nhó
 
 ### Tuần 1: Xây Dựng Nền Tảng & Giải Thuật Cốt Lõi
 - **Ngày 1-2 (Thiết lập & Core):** 
-  - **Member 1:** Hoàn thiện mô hình hoá trạng thái (State, Action) và unit tests cho `core/`.
-  - **Member 4:** Dựng khung Pygame, load được map (`example_map.txt`) và hiển thị tĩnh.
+  - **Member 1:** Hoàn thiện mô hình hoá trạng thái (State, Action) và unit tests cho `core/` -> **Tạo PR #1**.
+  - **Member 4:** Dựng khung Pygame, load được map (`example_map.txt`) và hiển thị tĩnh -> **Tạo PR #2**.
 - **Ngày 3-5 (Giải thuật & Đấu trí cơ bản):**
-  - **Member 1:** Cài đặt xong UCS.
+  - **Member 1:** Cài đặt xong UCS -> **Tạo PR #3**.
   - **Member 2:** Phác thảo hàm Heuristic và khung A*.
   - **Member 3:** Thiết kế xong luật chơi đối kháng và môi trường cho 2 Agent.
 - **Ngày 6-7 (Tích hợp & Báo cáo tiến độ):**
-  - **Member 2:** Hoàn thiện A* (không dùng Manhattan/Euclidean).
-  - **Member 4:** Nối UCS/A* vào Pygame để agent tự di chuyển (Playback).
-  - **Cả nhóm:** Cập nhật tiến độ lần 1.
+  - **Member 2:** Hoàn thiện A* (không dùng Manhattan/Euclidean) -> **Tạo PR #4**.
+  - **Member 3:** Bắt tay vào code Trọng tài phân xử (Engine & Conflict Resolver) cho môi trường thi đấu -> **Tạo PR #5**.
+  - **Member 4:** Nối UCS/A* vào Pygame để agent tự di chuyển (Playback) -> **Tạo PR #6**.
+  - **Cả nhóm:** Cập nhật tiến độ lần 1. Admin liên tục review và merge các PR trong tuần.
 
 ### Tuần 2: Mở Rộng, Thực Nghiệm & Đóng Gói
 - **Ngày 8-9 (Thực nghiệm & Trí tuệ nhân tạo):**
   - **Member 2:** Chạy thực nghiệm chứng minh Heuristic là Admissible và Consistent.
-  - **Member 3:** Code xong thuật toán điều khiển cho 2 AI Agent thi đấu (đảm bảo thời gian quyết định < 1000ms).
-  - **Member 4:** Xây dựng script Benchmark so sánh UCS và A*.
-- **Ngày 10-11 (Ghép Code & Tối Ưu):**
-  - **Cả nhóm:** Merge tất cả các nhánh (`feature/...`) vào `develop`. Khắc phục xung đột (Conflict) nếu có. Tối ưu code và fix bug diện rộng.
+  - **Member 3:** Code xong thuật toán điều khiển cho 2 AI Agent thi đấu (đảm bảo thời gian quyết định < 1000ms) -> **Tạo PR #7**.
+  - **Member 4:** Xây dựng script Benchmark so sánh UCS và A* -> **Tạo PR #8**.
+- **Ngày 10-11 (Tối Ưu & Cross-Testing):**
+  - **Cả nhóm:** Review và merge toàn bộ các PR còn sót lại vào `develop`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
 - **Ngày 12-13 (Tài Liệu & Báo Cáo):**
   - **Cả nhóm:** Soạn Slide (áp dụng tỷ lệ 4:3) theo phần được phân công. Quay Video Demo (< 3 phút).
 - **Ngày 14 (Tổng duyệt & Nộp bài):**
