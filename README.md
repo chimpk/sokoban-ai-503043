@@ -15,7 +15,7 @@
 | **Member 2** | 📄 `source/search/heuristic.py`<br>📄 `source/search/astar.py`<br>📄 `source/experiment/admissibility.py` | **Slide 4, 5, 6**<br>*(Heuristic, A*, Admissible)* | **01:10 - 02:40**<br>*(90 giây)* | `feature/member2-astar-heuristic` |
 | **Member 3** | 📁 `source/competitive/`<br>📁 `source/agents/` | **Slide 7, 8**<br>*(Competitive & AI Agent)* | **02:40 - 03:40**<br>*(60 giây)* | `feature/member3-competitive` |
 | **Member 4** | 📁 `source/gui/`<br>📄 `source/experiment/benchmark.py`<br>📄 `source/main.py` | **Slide 9, 10**<br>*(Pygame GUI & Benchmark)* | **03:40 - 04:40**<br>*(60 giây)* | `feature/member4-gui-integration` |
-| **Cả nhóm** | Ôn tập câu hỏi vấn đáp bảo vệ (`docs/09_Presentation_Script_and_Oral_QA_Preparation.md`) | -- | **04:40 - 05:00 + Q&A** | `develop` / `main` |
+| **Cả nhóm** | Ôn tập câu hỏi vấn đáp bảo vệ (`docs/09_Presentation_Script_and_Oral_QA_Preparation.md`) | -- | **04:40 - 05:00 + Q&A** | `main` |
 
 ---
 
@@ -111,7 +111,7 @@ Dự án có thời hạn 3 tuần, do đó lộ trình 2 tuần sẽ giúp nhó
   - **Member 3:** Code xong thuật toán điều khiển cho 2 AI Agent thi đấu (đảm bảo thời gian quyết định < 1000ms) -> **Tạo PR #7**.
   - **Member 4:** Xây dựng script Benchmark so sánh UCS và A* -> **Tạo PR #8**.
 - **Ngày 10-11 (Tối Ưu & Cross-Testing):**
-  - **Cả nhóm:** Review và merge toàn bộ các PR còn sót lại vào `develop`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
+  - **Cả nhóm:** Review và merge toàn bộ các PR còn sót lại vào `main`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
 - **Ngày 12-13 (Tài Liệu & Báo Cáo):**
   - **Cả nhóm:** Soạn Slide (áp dụng tỷ lệ 4:3) theo phần được phân công. Quay Video Demo (< 3 phút).
 - **Ngày 14 (Tổng duyệt & Nộp bài):**
