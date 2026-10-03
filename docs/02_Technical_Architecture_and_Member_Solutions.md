@@ -51,8 +51,12 @@ source/
 │   ├── button.py           (Nút bấm UI có hiệu ứng hover)
 │   └── playback.py         (Bộ điều khiển phát lại: Play, Pause, Next, Prev)
 │
-├── tests/                  --> [Member 1 phụ trách]
-│   └── test_state.py       (Unit tests kiểm thử state transition, move, push)
+├── tests/                  --> [Member 1 phụ trách điều phối & Toàn nhóm]
+│   ├── test_parser.py      --> [Member 1] Kiểm thử Parser: đọc %, A, B, D, C, khoảng trắng
+│   ├── test_state.py       --> [Member 1] Kiểm thử trạng thái: walk, push, wall, collision, hash O(1)
+│   ├── test_search.py      --> [Member 1 & 2] Kiểm thử UCS & A*: tính tối ưu & vô nghiệm
+│   ├── test_heuristic.py   --> [Member 2] Kiểm thử Heuristic: Admissible, Consistent, Deadlock
+│   └── test_competitive.py --> [Member 3] Kiểm thử Đối kháng: xung đột ô, cướp hộp, timeout
 │
 ├── agents/                 --> [Member 3 phụ trách] File độc lập cho từng Agent (Req 8)
 │   ├── base_agent.py       (Interface chuẩn BaseAgent)
@@ -61,6 +65,7 @@ source/
 │
 ├── maps/                   --> Thư mục chứa các map thử nghiệm
 │   ├── example_map.txt     (Bản đồ chính thức từ đề thi: 7 hộp, 7 đích)
+│   ├── map_01.txt          (Bản sao bản đồ chính thức)
 │   ├── map_02.txt          (Bản đồ mê cung 2 hộp)
 │   └── competitive_map.txt (Bản đồ đối kháng đối xứng 14x14)
 │

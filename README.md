@@ -75,14 +75,42 @@ Bộ 10 tài liệu hoàn chỉnh, không để ngỏ bất kỳ câu hỏi nào
 │
 └── source/                                 # Toàn bộ mã nguồn chạy được của dự án
     ├── main.py                             # Điểm khởi chạy chương trình (CLI entry point)
-    ├── core/                               # Không gian trạng thái & mô hình chuyển tiếp
-    ├── search/                             # UCS, A* Search và Heuristic Hungarian
-    ├── competitive/                        # Trọng tài đối kháng & Conflict Resolver
-    ├── agents/                             # Agent A và Agent B độc lập
-    ├── gui/                                # Giao diện Pygame OOP & Playback Controller
+    ├── core/                               # Không gian trạng thái & mô hình chuyển tiếp (Member 1)
+    │   ├── action.py                       # 4 hành động di chuyển (North, South, West, East)
+    │   ├── state.py                        # GameState (dynamic) & MapStaticData (static)
+    │   ├── parser.py                       # Bộ nạp bản đồ (%, A, B, D, C)
+    │   └── node.py                         # SearchNode & truy vết đường đi
+    ├── search/                             # Thuật toán tìm kiếm (Member 1 & 2)
+    │   ├── ucs.py                          # Uniform Cost Search (Member 1)
+    │   ├── heuristic.py                    # Hungarian Bipartite Matching Heuristic (Member 2)
+    │   └── astar.py                        # A* Search Algorithm (Member 2)
+    ├── competitive/                        # Trọng tài đối kháng & Conflict Resolver (Member 3)
+    │   ├── state.py                        # CompetitiveState lưu vị trí 2 agent, điểm, lượt
+    │   ├── conflict.py                     # ConflictResolver giải quyết va chạm đồng thời
+    │   └── engine.py                       # CompetitiveEngine điều phối trận đấu & TimeoutGuard
+    ├── agents/                             # File độc lập cho từng Agent AI (Member 3)
+    │   ├── base_agent.py                   # Interface trừu tượng BaseAgent
+    │   ├── agent_a.py                      # Thuật toán AI cho Agent A (<= 1000ms)
+    │   └── agent_b.py                      # Thuật toán AI cho Agent B (<= 1000ms)
+    ├── gui/                                # Giao diện Pygame OOP & Playback Controller (Member 4)
+    │   ├── game.py                         # Vòng lặp sự kiện và cửa sổ Pygame
+    │   ├── renderer.py                     # Bộ vẽ đồ họa tỷ lệ động
+    │   ├── button.py                       # Nút bấm tương tác UI
+    │   └── playback.py                     # Điều khiển phát lại (Play/Pause/Step)
     ├── experiment/                         # Script Benchmark & Kiểm chứng Admissibility
+    │   ├── admissibility.py                # Kiểm chứng toán học & thực nghiệm Heuristic (Member 2)
+    │   └── benchmark.py                    # Đo đạc hiệu năng Time, Memory, Nodes UCS vs A* (Member 4)
     ├── maps/                               # Bộ bản đồ chuẩn thử nghiệm
-    └── tests/                              # Unit tests tự động
+    │   ├── example_map.txt                 # Bản đồ chính thức đề thi (7 hộp, 7 đích)
+    │   ├── map_01.txt                      # Bản sao bản đồ chính thức
+    │   ├── map_02.txt                      # Bản đồ mê cung 2 hộp
+    │   └── competitive_map.txt             # Bản đồ đối kháng đối xứng tâm 14x14
+    └── tests/                              # 5 bộ Unit Test tự động toàn diện
+        ├── test_parser.py                  # Kiểm thử parser bản đồ (Member 1)
+        ├── test_state.py                   # Kiểm thử trạng thái & chuyển tiếp (Member 1)
+        ├── test_search.py                  # Kiểm thử tính tối ưu UCS & A* (Member 1 & 2)
+        ├── test_heuristic.py               # Kiểm thử Heuristic & Deadlock (Member 2)
+        └── test_competitive.py             # Kiểm thử va chạm & luật đối kháng (Member 3)
 ```
 
 ---
@@ -93,27 +121,32 @@ Dự án có thời hạn 3 tuần, do đó lộ trình 2 tuần sẽ giúp nhó
 
 ### Tuần 1: Xây Dựng Nền Tảng & Giải Thuật Cốt Lõi
 
-- **Ngày 1-2 (Thiết lập & Core):**
-  - **Member 1:** Hoàn thiện mô hình hoá trạng thái (State, Action) và unit tests cho `core/` -> **Tạo PR #1**.
+- **Ngày 1-2 (Thiết lập & Core + Unit Test Core):**
+  - **Member 1:** Hoàn thiện mô hình hoá trạng thái (`state.py`, `action.py`, `node.py`, `parser.py`) và viết bộ Unit Test cho Core (`test_state.py`, `test_parser.py`), đảm bảo 100% test cases passed -> **Tạo PR #1**.
   - **Member 4:** Dựng khung Pygame, load được map (`example_map.txt`) và hiển thị tĩnh -> **Tạo PR #2**.
-- **Ngày 3-5 (Giải thuật & Đấu trí cơ bản):**
-  - **Member 1:** Cài đặt xong UCS -> **Tạo PR #3**.
-  - **Member 2:** Phác thảo hàm Heuristic và khung A*.
+- **Ngày 3-5 (Giải thuật & Đấu trí cơ bản + Unit Test UCS):**
+  - **Member 1:** Cài đặt xong UCS và hoàn thiện Unit Test kiểm thử tính tối ưu (`test_ucs_optimality` trong `test_search.py`) -> **Tạo PR #3**.
+  - **Member 2:** Phác thảo hàm Heuristic Hungarian và khung thuật toán A*.
   - **Member 3:** Thiết kế xong luật chơi đối kháng và môi trường cho 2 Agent.
-- **Ngày 6-7 (Tích hợp & Báo cáo tiến độ):**
-  - **Member 2:** Hoàn thiện A* (không dùng Manhattan/Euclidean) -> **Tạo PR #4**.
-  - **Member 3:** Bắt tay vào code Trọng tài phân xử (Engine & Conflict Resolver) cho môi trường thi đấu -> **Tạo PR #5**.
+- **Ngày 6-7 (Tích hợp, A*, Đối kháng + Unit Test Search & Rules):**
+  - **Member 2:** Hoàn thiện A* (không dùng Manhattan/Euclidean) + viết Unit Test kiểm thử A* tối ưu ngang UCS (`test_astar_optimality`, `test_unsolvable_map` trong `test_search.py`) -> **Tạo PR #4**.
+  - **Member 3:** Hoàn thiện Trọng tài phân xử (Engine & Conflict Resolver) + viết Unit Test va chạm, đi xuyên nhau, cướp hộp (`test_competitive.py`) -> **Tạo PR #5**.
   - **Member 4:** Nối UCS/A* vào Pygame để agent tự di chuyển (Playback) -> **Tạo PR #6**.
-  - **Cả nhóm:** Cập nhật tiến độ lần 1. Admin liên tục review và merge các PR trong tuần.
+  - **Cả nhóm:** Cập nhật tiến độ lần 1 vào `project-progress.xlsx`. Admin review và merge các PR.
 
 ### Tuần 2: Mở Rộng, Thực Nghiệm & Đóng Gói
 
-- **Ngày 8-9 (Thực nghiệm & Trí tuệ nhân tạo):**
-  - **Member 2:** Chạy thực nghiệm chứng minh Heuristic là Admissible và Consistent.
-  - **Member 3:** Code xong thuật toán điều khiển cho 2 AI Agent thi đấu (đảm bảo thời gian quyết định < 1000ms) -> **Tạo PR #7**.
+- **Ngày 8-9 (Thực nghiệm & Trí tuệ nhân tạo + Unit Test Heuristic & AI):**
+  - **Member 2:** Chạy thực nghiệm `admissibility.py` + hoàn thiện Unit Test Heuristic (`test_admissibility`, `test_consistency`, `test_corner_deadlock` trong `test_heuristic.py`).
+  - **Member 3:** Hoàn thiện thuật toán cho 2 AI Agent thi đấu độc lập + Unit Test TimeoutGuard <= 1000ms (`test_timeout_guard`) -> **Tạo PR #7**.
   - **Member 4:** Xây dựng script Benchmark so sánh UCS và A* -> **Tạo PR #8**.
-- **Ngày 10-11 (Tối Ưu & Cross-Testing):**
-  - **Cả nhóm:** Review và merge toàn bộ các PR còn sót lại vào `main`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
+- **Ngày 10-11 (Tối Ưu & Toàn Bộ 5 Bộ Unit Test Tự Động):**
+  - **Cả nhóm:** Chạy lệnh kiểm thử toàn diện toàn hệ thống:
+    ```bash
+    python -m unittest discover -s source/tests -p "test_*.py" -v
+    ```
+    Yêu cầu bắt buộc: Toàn bộ 5 bộ test (`test_parser.py`, `test_state.py`, `test_search.py`, `test_heuristic.py`, `test_competitive.py`) phải hiển thị **`OK`**.
+  - Review và merge toàn bộ PR còn lại vào `main`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
 - **Ngày 12-13 (Tài Liệu & Báo Cáo):**
   - **Cả nhóm:** Soạn Slide (áp dụng tỷ lệ 4:3) theo phần được phân công. Quay Video Demo (< 3 phút).
 - **Ngày 14 (Tổng duyệt & Nộp bài):**
