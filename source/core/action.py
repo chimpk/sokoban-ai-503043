@@ -15,5 +15,11 @@ class Action(str, Enum):
         """
         Trả về (delta_row, delta_col) tương ứng với hành động.
         """
-        # TODO: Member 1 implement
-        pass
+        if self == Action.NORTH:
+            return (-1, 0)
+        elif self == Action.SOUTH:
+            return (1, 0)
+        elif self == Action.WEST:
+            return (0, -1)
+        elif self == Action.EAST:
+            return (0, 1)
