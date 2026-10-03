@@ -2,7 +2,7 @@
 
 > **Học phần:** 503043 - Nhập môn Trí tuệ Nhân tạo (Introduction to Artificial Intelligence)
 > **Khoa:** Công nghệ Thông tin - Trường Đại học Tôn Đức Thắng (TDTU)
-> **Giảng viên phụ trách:** Thầy Nguyễn Thành An (`nguyenthanhan@tdtu.edu.vn`)
+> **Giảng viên phụ trách:** Thầy Trịnh Hùng Cường
 > **Đề bài & Phiếu chấm điểm chính thức:** Đặt tại thư mục `rubric/` ([2627-HK1-AI-GK.pdf](rubric/2627-HK1-AI-GK.pdf) và [RUBRIC_GK.docx](rubric/RUBRIC_GK.docx))
 
 ---
