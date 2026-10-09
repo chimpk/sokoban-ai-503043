@@ -6,11 +6,21 @@ class MapStaticData:
     Lưu trữ các thành phần tĩnh của bản đồ (walls, goals, kích thước).
     Không thay đổi trong suốt quá trình tìm kiếm.
     """
-    def __init__(self, walls: set[tuple[int, int]], goals: set[tuple[int, int]], height: int, width: int):
+    def __init__(
+        self,
+        walls: set[tuple[int, int]],
+        goals: set[tuple[int, int]],
+        height: int,
+        width: int,
+        initial_player_pos: Optional[tuple[int, int]] = None,
+        initial_box_positions: Optional[set[tuple[int, int]]] = None
+    ):
         self.walls: frozenset[tuple[int, int]] = frozenset(walls)
         self.goals: frozenset[tuple[int, int]] = frozenset(goals)
         self.height: int = height
         self.width: int = width
+        self.initial_player_pos: Optional[tuple[int, int]] = initial_player_pos
+        self.initial_box_positions: frozenset[tuple[int, int]] = frozenset(initial_box_positions or ())
 
 
 class GameState:
@@ -25,11 +35,13 @@ class GameState:
         self.box_positions: frozenset[tuple[int, int]] = frozenset(box_positions)
         self._hash = hash((self.player_pos, self.box_positions))
 
-    def is_goal(self, static_data: MapStaticData) -> bool:
+    def is_goal(self, static_data: MapStaticData | frozenset[tuple[int, int]]) -> bool:
         """
         Kiểm tra xem tất cả các hộp đã nằm trên các ô đích (goals) hay chưa.
+        Nhận vào MapStaticData hoặc trực tiếp tập goals.
         """
-        return self.box_positions == static_data.goals
+        goals = static_data.goals if isinstance(static_data, MapStaticData) else static_data
+        return self.box_positions == goals
 
     def get_successors(self, static_data: MapStaticData) -> list[tuple[Action, 'GameState', int]]:
         """
