@@ -15,6 +15,5 @@ class Renderer:
         pass
 
     def render(self, state: GameState, static_data: MapStaticData) -> None:
-        """Vẽ toàn bộ bàn cờ tại trạng thái state."""
         # TODO: Member 4 implement
         pass
