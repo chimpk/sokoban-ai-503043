@@ -80,12 +80,14 @@ class CompetitiveState:
         return replace(self, box_owners=dict(self.box_owners))
 
     def is_finished(self) -> bool:
-        """Kết thúc khi hết n bước, hoặc mọi hộp đã vào goal và đều có chủ."""
+        """Kết thúc khi đạt n bước hoặc tất cả hộp đã nằm trên các ô đích.
+
+        Điều kiện kết thúc phụ thuộc vị trí hộp, không phụ thuộc quyền sở hữu:
+        ký hiệu C trong map biểu thị hộp đã nằm sẵn trên goal và ban đầu chưa có chủ.
+        """
         if self.current_step >= self.max_steps:
             return True
-        all_done = all(b in self.static_data.goals and self.box_owners.get(b) is not None
-                       for b in self.box_positions)
-        return all_done
+        return all(box in self.static_data.goals for box in self.box_positions)
 
     def winner(self) -> Optional[str]:
         if self.score_a > self.score_b:

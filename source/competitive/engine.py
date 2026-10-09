@@ -9,10 +9,11 @@ from .state import CompetitiveState
 
 class TimeoutGuard:
     """
-    Bảo vệ giới hạn 1000 ms / quyết định (đề, Requirement 7).
-    - Agent được báo SOFT_LIMIT_MS còn lại và phải TỰ dừng tìm kiếm trước mốc đó.
-    - Guard không ngắt cưỡng bức: nếu agent chạy quá HARD_LIMIT_MS hoặc báo lỗi
-      hoặc trả hành động không hợp lệ thì hành động bị thay bằng 'Wait'.
+    Lớp bảo vệ theo kiểu cooperative timeout cho các Agent của dự án.
+    Agent nhận ngân sách mềm và tự kiểm tra deadline trong các vòng tìm kiếm.
+    Python không thể cưỡng bức dừng an toàn một hàm đang chạy trong cùng thread;
+    vì vậy lớp này phát hiện kết quả đến muộn và thay bằng Wait, nhưng không thể
+    bảo đảm ngắt ngay một Agent bên ngoài không tuân thủ hợp đồng.
     """
     HARD_LIMIT_MS = 1000.0
     SOFT_LIMIT_MS = 900.0

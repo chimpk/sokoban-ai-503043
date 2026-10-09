@@ -269,6 +269,32 @@ class TestCompetitiveMode(unittest.TestCase):
         self.assertEqual(cur.box_positions, frozenset({goal}))
         self.assertEqual(cur.score_a, 1)
 
+    def test_all_boxes_on_goals_ends_even_if_preplaced_box_has_no_owner(self):
+        """Map symbol C is already on a goal and need not have an owner to finish."""
+        s = make_state(
+            "%%%%%%\\n"
+            "%A  A%\\n"
+            "% C %\\n"
+            "%%%%%%\\n"
+        )
+        # This map has two agents and a box represented by C, already on a goal.
+        self.assertTrue(all(box in s.static_data.goals for box in s.box_positions))
+        self.assertTrue(all(owner is None for owner in s.box_owners.values()))
+        self.assertTrue(s.is_finished())
+
+    def test_a_star_returns_shortest_path_around_blocked_cell(self):
+        """A* phải tìm đường ngắn nhất trong đồ thị có vật cản."""
+        from source.agents.pathing import Navigator
+
+        s = make_state()
+        nav = Navigator(s)
+        start, goal = (2, 1), (2, 5)
+        blocked = {(2, 3)}
+        path = nav.a_star(start, goal, blocked)
+        self.assertIsNotNone(path)
+        # The direct route is blocked; the shortest valid detour has length 6.
+        self.assertEqual(len(path), 6)
+
     def test_old_stub_api_is_still_available(self):
         """Các phương thức tương thích của CompetitiveState vẫn hoạt động."""
         s = make_state()

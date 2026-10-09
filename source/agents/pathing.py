@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import heapq
+import time
 from collections import deque
 from typing import Optional
 
@@ -12,11 +13,7 @@ MOVES = {a: d for a, d in DIRECTIONS.items() if a != "Wait"}
 
 
 class Navigator:
-    """
-    Công cụ tìm đường dùng chung cho 2 agent (BFS, A*, GBFS, lập kế hoạch đẩy hộp).
-    Heuristic của A*/GBFS là khoảng cách mê cung (BFS từ đích, chỉ tính tường),
-    nên không dùng Manhattan/Euclid, luôn admissible và consistent.
-    """
+    """Tìm đường và lập kế hoạch đẩy hộp; các vòng tìm kiếm hỗ trợ deadline mềm."""
 
     def __init__(self, state: CompetitiveState):
         sd = state.static_data
@@ -25,9 +22,12 @@ class Navigator:
         self.boxes = state.box_positions
         self._h_cache: dict[Cell, dict[Cell, int]] = {}
 
-    # ---------- lưới ----------
     def free(self, cell: Cell) -> bool:
-        return 0 <= cell[0] < self.height and 0 <= cell[1] < self.width and cell not in self.walls
+        return (
+            0 <= cell[0] < self.height
+            and 0 <= cell[1] < self.width
+            and cell not in self.walls
+        )
 
     def neighbors(self, cell: Cell):
         for action, (dr, dc) in MOVES.items():
@@ -35,121 +35,154 @@ class Navigator:
             if self.free(nxt):
                 yield action, nxt
 
-    def heuristic_map(self, target: Cell) -> dict[Cell, int]:
-        """Khoảng cách thật từ mọi ô tới target khi chỉ có tường."""
+    def heuristic_map(self, target: Cell, deadline: Optional[float] = None) -> dict[Cell, int]:
+        """BFS từ đích, chỉ xét tường; trả về khoảng cách mê cung chính xác."""
         if target not in self._h_cache:
             dist, queue = {target: 0}, deque([target])
             while queue:
+                if deadline is not None and time.perf_counter() >= deadline:
+                    break
                 cur = queue.popleft()
                 for _, nxt in self.neighbors(cur):
                     if nxt not in dist:
                         dist[nxt] = dist[cur] + 1
                         queue.append(nxt)
-            self._h_cache[target] = dist
+            # Chỉ cache bản đồ hoàn chỉnh; tránh lưu heuristic dở dang khi hết giờ.
+            if not queue:
+                self._h_cache[target] = dist
+            return dist
         return self._h_cache[target]
 
-    # ---------- tìm đường cho agent ----------
-    def a_star(self, start: Cell, goal: Cell, blocked) -> Optional[list[str]]:
-        return self._best_first(start, goal, blocked, use_g=True)
+    def a_star(self, start: Cell, goal: Cell, blocked, deadline: Optional[float] = None) -> Optional[list[str]]:
+        return self._best_first(start, goal, blocked, use_g=True, deadline=deadline)
 
-    def greedy(self, start: Cell, goal: Cell, blocked) -> Optional[list[str]]:
-        return self._best_first(start, goal, blocked, use_g=False)
+    def greedy(self, start: Cell, goal: Cell, blocked, deadline: Optional[float] = None) -> Optional[list[str]]:
+        return self._best_first(start, goal, blocked, use_g=False, deadline=deadline)
 
-    def _best_first(self, start, goal, blocked, use_g: bool) -> Optional[list[str]]:
-        h = self.heuristic_map(goal)
-        if start not in h:
+    def _best_first(self, start, goal, blocked, use_g: bool,
+                    deadline: Optional[float] = None) -> Optional[list[str]]:
+        if start == goal:
+            return []
+        if deadline is not None and time.perf_counter() >= deadline:
             return None
+        h = self.heuristic_map(goal, deadline)
+        if deadline is not None and time.perf_counter() >= deadline:
+            return None
+        if start not in h or goal not in h:
+            return None
+
         tie = 0
-        frontier = [(h[start], tie, start)]
-        g, parent = {start: 0}, {start: None}
+        g_score = {start: 0}
+        parent: dict[Cell, tuple[Cell, str] | None] = {start: None}
+        frontier = [((g_score[start] if use_g else 0) + h[start], tie, 0, start)]
+
         while frontier:
-            _, _, cur = heapq.heappop(frontier)
+            if deadline is not None and time.perf_counter() >= deadline:
+                return None
+            _, _, pushed_g, cur = heapq.heappop(frontier)
+            if pushed_g != g_score.get(cur):
+                continue
             if cur == goal:
                 path = []
-                while parent[cur] is not None:
-                    cur, action = parent[cur]
+                node = cur
+                while parent[node] is not None:
+                    prev, action = parent[node]
                     path.append(action)
+                    node = prev
                 return path[::-1]
+
             for action, nxt in self.neighbors(cur):
-                if nxt in blocked or nxt in parent:
+                if nxt in blocked:
                     continue
-                g[nxt] = g[cur] + 1
+                tentative_g = g_score[cur] + 1
+                if tentative_g >= g_score.get(nxt, 10**18):
+                    continue
+                g_score[nxt] = tentative_g
                 parent[nxt] = (cur, action)
                 tie += 1
-                heapq.heappush(frontier, ((g[nxt] if use_g else 0) + h.get(nxt, 10 ** 6), tie, nxt))
+                priority = (tentative_g if use_g else 0) + h.get(nxt, 10**6)
+                heapq.heappush(frontier, (priority, tie, tentative_g, nxt))
         return None
 
-    # ---------- kế hoạch đẩy hộp ----------
     def _dead_corner(self, cell: Cell) -> bool:
         r, c = cell
-        vert = (r - 1, c) in self.walls or (r + 1, c) in self.walls
-        horiz = (r, c - 1) in self.walls or (r, c + 1) in self.walls
+        # Ngoài biên bản đồ cũng được xem là vật cản.
+        vert = not self.free((r - 1, c)) or not self.free((r + 1, c))
+        horiz = not self.free((r, c - 1)) or not self.free((r, c + 1))
         return vert and horiz and cell not in self.goals
 
-    def push_plans(self, box: Cell, targets) -> dict[Cell, list[str]]:
-        """
-        BFS trên vị trí hộp (các hộp khác coi như tường) -> với mỗi ô trong targets
-        trả về chuỗi hướng đẩy ngắn nhất. Bỏ qua ô góc chết.
-        """
+    def push_plans(self, box: Cell, targets, deadline: Optional[float] = None) -> dict[Cell, list[str]]:
+        """BFS trên vị trí hộp; các hộp còn lại được xem như vật cản."""
         others = self.boxes - {box}
-        parent, queue = {box: None}, deque([box])
+        parent: dict[Cell, tuple[Cell, str] | None] = {box: None}
+        queue = deque([box])
         while queue:
+            if deadline is not None and time.perf_counter() >= deadline:
+                break
             cur = queue.popleft()
             for action, (dr, dc) in MOVES.items():
-                nxt, stand = (cur[0] + dr, cur[1] + dc), (cur[0] - dr, cur[1] - dc)
-                if (nxt in parent or not self.free(nxt) or nxt in others
-                        or not self.free(stand) or stand in others or self._dead_corner(nxt)):
+                nxt = (cur[0] + dr, cur[1] + dc)
+                stand = (cur[0] - dr, cur[1] - dc)
+                if (
+                    nxt in parent or not self.free(nxt) or nxt in others
+                    or not self.free(stand) or stand in others
+                    or self._dead_corner(nxt)
+                ):
                     continue
                 parent[nxt] = (cur, action)
                 queue.append(nxt)
+
         plans = {}
-        for t in targets:
-            if t in parent and t != box:
-                cur, seq = t, []
+        for target in targets:
+            if target in parent and target != box:
+                cur, seq = target, []
                 while parent[cur] is not None:
                     cur, action = parent[cur]
                     seq.append(action)
-                plans[t] = seq[::-1]
+                plans[target] = seq[::-1]
         return plans
 
     def approach(self, me: Cell, box: Cell, pushes: list[str], opponent: Cell,
-                 greedy: bool = False) -> Optional[list[str]]:
-        """
-        Biến chuỗi hướng đẩy thành chuỗi hành động THỰC SỰ thực hiện được.
-        Trước mỗi lần đẩy, nếu agent chưa đứng đúng ô phía sau hộp (ví dụ vừa đổi
-        hướng East -> South) thì chèn thêm đoạn đường đi vòng (A*/GBFS) tới ô đó.
-        Sau mỗi lần đẩy, agent đứng ở vị trí cũ của hộp. Trả về None nếu một đoạn
-        không đi tới được (kế hoạch bất khả thi).
-        """
+                 greedy: bool = False, deadline: Optional[float] = None) -> Optional[list[str]]:
+        """Chuyển chuỗi đẩy thành chuỗi đi/đẩy hợp lệ; dừng sớm khi hết ngân sách."""
         search = self.greedy if greedy else self.a_star
         others = self.boxes - {box}
         actions: list[str] = []
-        agent = me
-        for i, push in enumerate(pushes):
+        agent, current_box = me, box
+
+        for push in pushes:
+            if deadline is not None and time.perf_counter() >= deadline:
+                return None
+            if push not in MOVES:
+                return None
             dr, dc = MOVES[push]
-            stand = (box[0] - dr, box[1] - dc)
+            stand = (current_box[0] - dr, current_box[1] - dc)
+            dest = (current_box[0] + dr, current_box[1] + dc)
+
+            if not self.free(dest) or dest in others:
+                return None
             if agent != stand:
-                blocked = others | {box} | ({opponent} if i == 0 else set())
-                walk = search(agent, stand, blocked)
+                # Đối thủ hiện tại được xem là vật cản trong toàn bộ kế hoạch.
+                blocked = set(others) | {current_box, opponent}
+                walk = search(agent, stand, blocked, deadline=deadline)
                 if walk is None:
                     return None
-                actions += walk
+                actions.extend(walk)
             actions.append(push)
-            agent, box = box, (box[0] + dr, box[1] + dc)
+            agent, current_box = current_box, dest
+
         return actions
 
     def safe_step(self, me: Cell, opponent: Cell, rng) -> str:
-        """Bước dự phòng: đi ngẫu nhiên sang ô trống (không đẩy hộp)."""
-        options = [a for a, n in self.neighbors(me) if n not in self.boxes and n != opponent]
+        options = [
+            action for action, nxt in self.neighbors(me)
+            if nxt not in self.boxes and nxt != opponent
+        ]
         return rng.choice(options) if options else "Wait"
 
 
 class StuckBreaker:
-    """
-    Phá thế bế tắc đối xứng (ví dụ 2 agent cùng đẩy một hộp từ hai phía, bước đi bị huỷ
-    mãi). Nhớ vị trí/hành động bước trước; nếu đứng yên dù đã ra lệnh đi 2 lần liên tiếp
-    thì đôi khi đổi sang bước ngẫu nhiên. Kết quả vẫn lặp lại được vì dùng rng có seed.
-    """
+    """Phá bế tắc lặp lại bằng lựa chọn ngẫu nhiên có seed cố định."""
 
     def __init__(self, rng):
         self.rng, self.last, self.count = rng, None, 0
