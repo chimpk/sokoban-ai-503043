@@ -1,82 +1,54 @@
 # Sokoban AI Project (Course: 503043 – Introduction to AI)
 
-Dự án môn học **503043 - Nhập môn Trí tuệ Nhân tạo (Introduction to Artificial Intelligence)**.
-Triển khai giải thuật tìm kiếm không gian trạng thái (State-Space Search) cho trò chơi Sokoban (đơn người chơi và đối kháng hai người chơi).
+> **Học phần:** 503043 - Nhập môn Trí tuệ Nhân tạo (Introduction to Artificial Intelligence)
+> **Khoa:** Công nghệ Thông tin - Trường Đại học Tôn Đức Thắng (TDTU)
+> **Giảng viên phụ trách:** Thầy Trịnh Hùng Cường
+> **Đề bài & Phiếu chấm điểm chính thức:** Đặt tại thư mục `rubric/` ([2627-HK1-AI-GK.pdf](rubric/2627-HK1-AI-GK.pdf) và [RUBRIC_GK.docx](rubric/RUBRIC_GK.docx))
 
 ---
 
-## 📌 Phân công Toàn diện 4 Thành viên (Code + Soạn Slide + Thuyết trình)
+## 📌 Phân Công Toàn Diện 4 Thành Viên (Code + Báo Cáo + Soạn Slide + Thuyết Trình)
 
-| Thành viên | Nhiệm vụ Code độc quyền | Slide phụ trách | Thuyết trình (Thời lượng) | Nhánh Git |
-| :--- | :--- | :---: | :---: | :--- |
-| **Member 1** | 📁 `source/core/`<br>📄 `source/search/ucs.py`<br>📁 `source/tests/` | **Slide 1, 2, 3**<br>*(Formulation & UCS)* | **00:00 - 01:10**<br>*(70 giây)* | `feature/member1-state-ucs` |
-| **Member 2** | 📄 `source/search/heuristic.py`<br>📄 `source/search/astar.py`<br>📄 `source/experiment/admissibility.py` | **Slide 4, 5, 6**<br>*(Heuristic, A*, Admissible)* | **01:10 - 02:40**<br>*(90 giây)* | `feature/member2-astar-heuristic` |
-| **Member 3** | 📁 `source/competitive/`<br>📁 `source/agents/` | **Slide 7, 8**<br>*(Competitive & AI Agent)* | **02:40 - 03:40**<br>*(60 giây)* | `feature/member3-competitive` |
-| **Member 4** | 📁 `source/gui/`<br>📄 `source/experiment/benchmark.py`<br>📄 `source/main.py` | **Slide 9, 10**<br>*(Pygame GUI & Benchmark)* | **03:40 - 04:40**<br>*(60 giây)* | `feature/member4-gui-integration` |
-| **Cả nhóm** | Ôn tập câu hỏi vấn đáp (`docs/04_Slide_and_Video_Requirements.md`) | -- | **04:40 - 05:00 + Q&A** | |
-
-
----
-
-## 📊 Thang điểm Rubric Chính thức (10.0 Điểm)
-
-1. **Formulation (2.0 điểm):** Biểu diễn State, Actions, Start, Goal, Path cost.
-2. **Uninformed Search (3.0 điểm):** Cài đặt UCS + Chạy thực thi + **Visualize kết quả**.
-3. **Informed Search (3.0 điểm):** Cài đặt A* & Heuristic + Chạy thực thi + **Visualize kết quả**.
-4. **Presentation (1.0 điểm):** Chuẩn bị tài liệu, slide 4:3, video demo <= 3 phút, trình bày lưu loát trong <= 5 phút.
-5. **Q&A Vấn đáp (1.0 điểm):** Trả lời chính xác các câu hỏi của Giảng viên.
+| Thành viên        | Nhiệm vụ Code độc quyền                                                                           |                   Slide phụ trách                   |    Thuyết trình (Thời lượng)    | Nhánh Git                          |
+| :------------------ | :----------------------------------------------------------------------------------------------------- | :----------------------------------------------------: | :-----------------------------------: | :---------------------------------- |
+| **Member 1**  | 📁`source/core/`📄 `source/search/ucs.py`📁 `source/tests/`                                      |     **Slide 1, 2, 3***(Formulation & UCS)*     | **00:00 - 01:10***(70 giây)* | `feature/member1-state-ucs`       |
+| **Member 2**  | 📄`source/search/heuristic.py`📄 `source/search/astar.py`📄 `source/experiment/admissibility.py` | **Slide 4, 5, 6***(Heuristic, A*, Admissible)* | **01:10 - 02:40***(90 giây)* | `feature/member2-astar-heuristic` |
+| **Member 3**  | 📁`source/competitive/`📁 `source/agents/`                                                         |    **Slide 7, 8***(Competitive & AI Agent)*    | **02:40 - 03:40***(60 giây)* | `feature/member3-competitive`     |
+| **Member 4**  | 📁`source/gui/`📄 `source/experiment/benchmark.py`📄 `source/main.py`                            |   **Slide 9, 10***(Pygame GUI & Benchmark)*   | **03:40 - 04:40***(60 giây)* | `feature/member4-gui-integration` |
+| **Cả nhóm** | Ôn tập câu hỏi vấn đáp bảo vệ (`docs/09_Presentation_Script_and_Oral_QA_Preparation.md`)    |                           --                           |     **04:40 - 05:00 + Q&A**     | `main`                            |
 
 ---
 
-## 📖 Tài Liệu Hướng Dẫn & Nhiệm Vụ Nghiên Cứu (`docs/`)
+## 📊 Thang Điểm Rubric Chính Thức (10.0 Điểm)
 
-Thư mục `docs/` được tinh gọn thành 4 tài liệu cốt lõi giúp các thành viên định hướng tự học, tự nghiên cứu và phối hợp hiệu quả:
-
-| STT | File Tài liệu | Mục đích sử dụng & Nội dung chính | Đối tượng |
-| :-: | :--- | :--- | :---: |
-| **01** | [`01_Project_Overview_Rubric.md`](docs/01_Project_Overview_Rubric.md) | **Tổng quan đề tài & Bảng điểm Rubric 10.0đ** từ Giảng viên, quy định nộp bài và chống đạo văn / AI policy. | **Cả nhóm** (Bắt buộc đọc đầu tiên) |
-| **02** | [`02_Member_Research_Tasks.md`](docs/02_Member_Research_Tasks.md) | **Phân công nhiệm vụ, câu hỏi tự nghiên cứu, từ khóa tra cứu học thuật** và tiêu chuẩn nghiệm thu cho từng thành viên. | **Từng thành viên** (Đọc kỹ phần của mình) |
-| **03** | [`03_Interface_Contracts.md`](docs/03_Interface_Contracts.md) | **Quy ước kỹ thuật & Giao diện dùng chung:** Hệ tọa độ `(row, col)`, cấu trúc `State`, kiểu dữ liệu Input/Output của các hàm tìm kiếm để 4 bạn code độc lập không bị xung đột khi merge. | **Cả nhóm** (Bắt buộc tuân thủ khi code) |
-| **04** | [`04_Slide_and_Video_Requirements.md`](docs/04_Slide_and_Video_Requirements.md) | **Quy định Slide 4:3, Video demo <= 3 phút** và các nhóm câu hỏi trọng tâm ôn tập vấn đáp bảo vệ (Q&A). | **Cả nhóm** (Dùng khi làm Slide & Ôn thi) |
-
+1. **Formulation (2.0 điểm):** Biểu diễn State-Space, Actions, Start, Goal, Path Cost, Deadlock concept.
+2. **Uninformed Search (3.0 điểm):** Cài đặt UCS + Chạy thực thi + **Visualize kết quả trên Pygame GUI**.
+3. **Informed Search (3.0 điểm):** Cài đặt A* & Heuristic (CẤM Euclidean, CẤM Manhattan) + Chạy thực thi + **Visualize kết quả** + Chứng minh & Thực nghiệm Admissible & Consistent.
+4. **Presentation (1.0 điểm):** Chuẩn bị tài liệu kỹ lưỡng, slide 4:3 nền sáng in đen trắng đọc rõ, video demo $\le 3$ phút, thuyết trình lưu loát $\le 5$ phút.
+5. **Q&A Vấn Đáp (1.0 điểm):** Trả lời chính xác, thuyết phục các câu hỏi vấn đáp trực tiếp từ Giảng viên.
 
 ---
 
-## 🌳 Quy trình làm việc Git (Git Workflow)
+## 📖 Hệ Thống Tài Liệu Kỹ Thuật Toàn Diện (`docs/`)
 
-```text
-main (Production / Stable Release)
-  └── develop (Integration branch)
-        ├── feature/member1-state-ucs
-        ├── feature/member2-astar-heuristic
-        ├── feature/member3-competitive
-        └── feature/member4-gui-integration
+Bộ 10 tài liệu hoàn chỉnh, không để ngỏ bất kỳ câu hỏi nào, cung cấp 100% giải pháp, công thức toán học, thuật toán và kịch bản thuyết trình/vấn đáp:
 
-```
-
-### Hướng dẫn cho từng thành viên:
-1. **Chuyển sang nhánh của mình:**
-   ```bash
-   git checkout feature/member<X>-<tên_nhánh>
-   ```
-2. **Cập nhật code mới nhất từ `develop` trước khi code:**
-   ```bash
-   git pull origin develop
-   ```
-3. **Commit công việc thường xuyên:**
-   ```bash
-   git add .
-   git commit -m "feat: mô tả công việc vừa hoàn thành"
-   git push origin feature/member<X>-<tên_nhánh>
-   ```
-4. **Hợp nhất (Merge):**
-   - Khi hoàn thành tính năng, tạo **Pull Request (PR)** từ `feature/member<X>...` vào `develop`.
-   - Cả nhóm review, sau đó merge vào `develop`.
-   - Cuối kỳ, sau khi toàn bộ hệ thống chạy ổn định, merge `develop` vào `main`.
+|     STT     | File Tài liệu                                                                                                | Mục đích sử dụng & Nội dung cốt lõi                                                                                                                                                                                                  |                     Đối tượng sử dụng                     |
+| :----------: | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------: |
+| **01** | [`01_Project_Overview_Rubric.md`](docs/01_Project_Overview_Rubric.md)                                         | **Tổng quan đề tài & Ma trận Rubric 10.0đ**, ánh xạ chi tiết 8 Yêu cầu kỹ thuật, quy định nộp bài và kỷ luật học thuật.                                                                                          |         **Cả nhóm** (Bắt buộc đọc trước)         |
+| **02** | [`02_Technical_Architecture_and_Member_Solutions.md`](docs/02_Technical_Architecture_and_Member_Solutions.md) | **Kiến trúc hệ thống, từ điển biến & lời giải kỹ thuật toàn diện** cho cả 4 thành viên (không còn câu hỏi tự nghiên cứu).                                                                                      | **Từng thành viên** (Đọc kỹ phần việc của mình) |
+| **03** | [`03_State_Space_and_Search_Algorithms.md`](docs/03_State_Space_and_Search_Algorithms.md)                     | **Mô hình hóa không gian trạng thái toán học AIMA** $\langle \mathcal{S}, s_0, \mathcal{A}, \mathcal{T}, \mathcal{G}, c \rangle$, Canonical state băm $O(1)$, và thuật toán UCS & A* Search chi tiết.                 |          **Member 1, 2** (Formulation & Search)          |
+| **04** | [`04_Interface_Contracts_and_Testing.md`](docs/04_Interface_Contracts_and_Testing.md)                         | **Quy ước giao diện bất biến & Kế hoạch kiểm thử toàn diện**, đặc tả dataclasses, 5 bộ Unit Test và danh mục các trường hợp biên (Edge Cases).                                                                   |      **Cả nhóm** (Bắt buộc tuân thủ khi code)      |
+| **05** | [`05_Heuristic_Proof_and_Experimental_Benchmark.md`](docs/05_Heuristic_Proof_and_Experimental_Benchmark.md)   | **Chứng minh toán học Admissible & Consistent**, Heuristic Hungarian Bipartite Matching + Deadlock Pruning, Báo cáo thực nghiệm 0% vi phạm và Benchmark UCS vs A*.                                                            | **Member 2, 4** (Trích nội dung vào Slide & Báo cáo) |
+| **06** | [`06_Competitive_Game_Theory_and_AI_Design.md`](docs/06_Competitive_Game_Theory_and_AI_Design.md)             | **Lý thuyết trò chơi đối kháng 2 Agent**, ma trận phân xử xung đột đồng thời, luật cướp hộp, AI Agent $\le 1000$ ms, bản đồ đối xứng $14 \times 14$ và kiến trúc cắm ghép file thi đấu.            |    **Member 3, 4** (Chế độ thi đấu đối kháng)    |
+| **07** | [`07_Pygame_GUI_and_MacOS_Compatibility.md`](docs/07_Pygame_GUI_and_MacOS_Compatibility.md)                   | **Thiết kế giao diện Pygame OOP**, co giãn tỷ lệ động, bộ điều khiển Playback (Space, $\to$, $\gets$), và checklist tương thích tuyệt đối **macOS 13.7.8 Ventura Intel i5**.                              |            **Member 4** (Giao diện đồ họa)            |
+| **08** | [`08_Slide_and_Video_Production_Guide.md`](docs/08_Slide_and_Video_Production_Guide.md)                       | **Hướng dẫn sản xuất Slide 4:3 nền sáng** in đen trắng đọc rõ, cấu trúc 10 slide chuẩn, kịch bản Video Demo $\le 3$ phút và quy cách đóng gói zip tránh mất 50% điểm.                                     |            **Cả nhóm** (Làm Slide & Video)            |
+| **09** | [`09_Presentation_Script_and_Oral_QA_Preparation.md`](docs/09_Presentation_Script_and_Oral_QA_Preparation.md) | **Kịch bản thuyết trình chi tiết từng giây** cho 4 thành viên ($\le 5$ phút) và **Bộ 25 câu hỏi vấn đáp kèm câu trả lời mẫu xuất sắc** bảo vệ 1.0 điểm cá nhân trước Giảng viên.             |  **Cả nhóm** (Luyện tập thuyết trình & Vấn đáp)  |
+| **10** | [`10_Admin_and_Pull_Request_Workflow.md`](docs/10_Admin_and_Pull_Request_Workflow.md)                         | **Quy trình Trưởng nhóm (Admin)** thiết lập quyền bảo vệ nhánh (Branch Protection) và **Pull Request Workflow** để quản lý quá trình ghép code, review code trước khi merge, tránh rủi ro hỏng code gốc. |       **Cả nhóm & Admin** (Quản lý merge code)       |
 
 ---
 
-## 📁 Cấu trúc thư mục dự án chuẩn theo quy chế nộp bài
+## 📁 Cấu Trúc Mã Nguồn Chuẩn Nộp Bài
 
 ```text
 .
@@ -85,48 +57,144 @@ main (Production / Stable Release)
 ├── requirements.txt
 ├── demo.txt
 │
-├── rubric/                                 # Tài liệu đề bài & phiếu chấm điểm từ Thầy/Cô
-│   ├── 2627-HK1-AI-GK.pdf                  (Đề thi giữa kỳ chính thức)
-│   └── RUBRIC_GK.docx                      (Phiếu chấm điểm Rubric chính thức)
+├── rubric/                                 # Đề thi & Rubric chính thức của Giảng viên
+│   ├── 2627-HK1-AI-GK.pdf
+│   └── RUBRIC_GK.docx
 │
-├── docs/                                   # Bộ tài liệu yêu cầu, nhiệm vụ & quy ước kỹ thuật
+├── docs/                                   # Bộ 10 tài liệu kỹ thuật & giải pháp lý thuyết hoàn chỉnh
 │   ├── 01_Project_Overview_Rubric.md
-│   ├── 02_Member_Research_Tasks.md
-│   ├── 03_Interface_Contracts.md
-│   └── 04_Slide_and_Video_Requirements.md
+│   ├── 02_Technical_Architecture_and_Member_Solutions.md
+│   ├── 03_State_Space_and_Search_Algorithms.md
+│   ├── 04_Interface_Contracts_and_Testing.md
+│   ├── 05_Heuristic_Proof_and_Experimental_Benchmark.md
+│   ├── 06_Competitive_Game_Theory_and_AI_Design.md
+│   ├── 07_Pygame_GUI_and_MacOS_Compatibility.md
+│   ├── 08_Slide_and_Video_Production_Guide.md
+│   ├── 09_Presentation_Script_and_Oral_QA_Preparation.md
+│   └── 10_Admin_and_Pull_Request_Workflow.md
 │
-└── source/                                 # Thư mục chứa toàn bộ mã nguồn của dự án
-    ├── main.py                             # [Member 4] Entry point khởi chạy
-    ├── core/                               # [Member 1] Mô hình hóa State-space
-    ├── search/                             # [Member 1 & 2] UCS, A*, Heuristic
-    ├── experiment/                         # [Member 2 & 4] Admissibility, Benchmark
-    ├── competitive/                        # [Member 3] Chế độ đối kháng 2 Agent
-    ├── gui/                                # [Member 4] Giao diện Pygame
-    ├── tests/                              # [Member 1] Unit tests
-    ├── agents/                             # [Member 3] 2 Agent thi đấu độc lập
-    │   ├── agent_a.py
-    │   └── agent_b.py
-    └── maps/                               # 2 bản đồ demo
-        ├── map_01.txt                      (Bản đồ demo 1 - từ đề thi chính thức)
-        └── map_02.txt                      (Bản đồ demo 2 - mê cung 2 hộp)
+└── source/                                 # Toàn bộ mã nguồn chạy được của dự án
+    ├── main.py                             # Điểm khởi chạy chương trình (CLI entry point)
+    ├── core/                               # Không gian trạng thái & mô hình chuyển tiếp (Member 1)
+    │   ├── action.py                       # 4 hành động di chuyển (North, South, West, East)
+    │   ├── state.py                        # GameState (dynamic) & MapStaticData (static)
+    │   ├── parser.py                       # Bộ nạp bản đồ (%, A, B, D, C)
+    │   └── node.py                         # SearchNode & truy vết đường đi
+    ├── search/                             # Thuật toán tìm kiếm (Member 1 & 2)
+    │   ├── ucs.py                          # Uniform Cost Search (Member 1)
+    │   ├── heuristic.py                    # Hungarian Bipartite Matching Heuristic (Member 2)
+    │   └── astar.py                        # A* Search Algorithm (Member 2)
+    ├── competitive/                        # Trọng tài đối kháng & Conflict Resolver (Member 3)
+    │   ├── state.py                        # CompetitiveState lưu vị trí 2 agent, điểm, lượt
+    │   ├── conflict.py                     # ConflictResolver giải quyết va chạm đồng thời
+    │   └── engine.py                       # CompetitiveEngine điều phối trận đấu & TimeoutGuard
+    ├── agents/                             # File độc lập cho từng Agent AI (Member 3)
+    │   ├── base_agent.py                   # Interface trừu tượng BaseAgent
+    │   ├── agent_a.py                      # Thuật toán AI cho Agent A (<= 1000ms)
+    │   └── agent_b.py                      # Thuật toán AI cho Agent B (<= 1000ms)
+    ├── gui/                                # Giao diện Pygame OOP & Playback Controller (Member 4)
+    │   ├── game.py                         # Vòng lặp sự kiện và cửa sổ Pygame
+    │   ├── renderer.py                     # Bộ vẽ đồ họa tỷ lệ động
+    │   ├── button.py                       # Nút bấm tương tác UI
+    │   └── playback.py                     # Điều khiển phát lại (Play/Pause/Step)
+    ├── experiment/                         # Script Benchmark & Kiểm chứng Admissibility
+    │   ├── admissibility.py                # Kiểm chứng toán học & thực nghiệm Heuristic (Member 2)
+    │   └── benchmark.py                    # Đo đạc hiệu năng Time, Memory, Nodes UCS vs A* (Member 4)
+    ├── maps/                               # Bộ bản đồ chuẩn thử nghiệm
+    │   ├── example_map.txt                 # Bản đồ chính thức đề thi (7 hộp, 7 đích)
+    │   ├── map_01.txt                      # Bản sao bản đồ chính thức
+    │   ├── map_02.txt                      # Bản đồ mê cung 2 hộp
+    │   └── competitive_map.txt             # Bản đồ đối kháng đối xứng tâm 14x14
+    └── tests/                              # 5 bộ Unit Test tự động toàn diện
+        ├── test_parser.py                  # Kiểm thử parser bản đồ (Member 1)
+        ├── test_state.py                   # Kiểm thử trạng thái & chuyển tiếp (Member 1)
+        ├── test_search.py                  # Kiểm thử tính tối ưu UCS & A* (Member 1 & 2)
+        ├── test_heuristic.py               # Kiểm thử Heuristic & Deadlock (Member 2)
+        └── test_competitive.py             # Kiểm thử va chạm & luật đối kháng (Member 3)
 ```
 
 ---
 
-## 🚀 Hướng dẫn cài đặt & Chạy chương trình
+## 🗓 Lộ Trình Thực Hiện Dự Án (Roadmap 2 Tuần)
 
-### 1. Cài đặt thư viện:
+Dự án có thời hạn 3 tuần, do đó lộ trình 2 tuần sẽ giúp nhóm có dư 1 tuần cuối để luyện tập thuyết trình, sửa lỗi và dự phòng rủi ro.
+
+### Tuần 1: Xây Dựng Nền Tảng & Giải Thuật Cốt Lõi
+
+- **Ngày 1-2 (Thiết lập & Core + Unit Test Core):**
+  - **Member 1:** Hoàn thiện mô hình hoá trạng thái (`state.py`, `action.py`, `node.py`, `parser.py`) và viết bộ Unit Test cho Core (`test_state.py`, `test_parser.py`), đảm bảo 100% test cases passed -> **Tạo PR #1**.
+  - **Member 4:** Dựng khung Pygame, load được map (`example_map.txt`) và hiển thị tĩnh -> **Tạo PR #2**.
+- **Ngày 3-5 (Giải thuật & Đấu trí cơ bản + Unit Test UCS):**
+  - **Member 1:** Cài đặt xong UCS và hoàn thiện Unit Test kiểm thử tính tối ưu (`test_ucs_optimality` trong `test_search.py`) -> **Tạo PR #3**.
+  - **Member 2:** Phác thảo hàm Heuristic Hungarian và khung thuật toán A*.
+  - **Member 3:** Thiết kế xong luật chơi đối kháng và môi trường cho 2 Agent.
+- **Ngày 6-7 (Tích hợp, A*, Đối kháng + Unit Test Search & Rules):**
+  - **Member 2:** Hoàn thiện A* (không dùng Manhattan/Euclidean) + viết Unit Test kiểm thử A* tối ưu ngang UCS (`test_astar_optimality`, `test_unsolvable_map` trong `test_search.py`) -> **Tạo PR #4**.
+  - **Member 3:** Hoàn thiện Trọng tài phân xử (Engine & Conflict Resolver) + viết Unit Test va chạm, đi xuyên nhau, cướp hộp (`test_competitive.py`) -> **Tạo PR #5**.
+  - **Member 4:** Nối UCS/A* vào Pygame để agent tự di chuyển (Playback) -> **Tạo PR #6**.
+  - **Cả nhóm:** Cập nhật tiến độ lần 1 vào `project-progress.xlsx`. Admin review và merge các PR.
+
+### Tuần 2: Mở Rộng, Thực Nghiệm & Đóng Gói
+
+- **Ngày 8-9 (Thực nghiệm & Trí tuệ nhân tạo + Unit Test Heuristic & AI):**
+  - **Member 2:** Chạy thực nghiệm `admissibility.py` + hoàn thiện Unit Test Heuristic (`test_admissibility`, `test_consistency`, `test_corner_deadlock` trong `test_heuristic.py`).
+  - **Member 3:** Hoàn thiện thuật toán cho 2 AI Agent thi đấu độc lập + Unit Test TimeoutGuard <= 1000ms (`test_timeout_guard`) -> **Tạo PR #7**.
+  - **Member 4:** Xây dựng script Benchmark so sánh UCS và A* -> **Tạo PR #8**.
+- **Ngày 10-11 (Tối Ưu & Toàn Bộ 5 Bộ Unit Test Tự Động):**
+  - **Cả nhóm:** Chạy lệnh kiểm thử toàn diện toàn hệ thống:
+    ```bash
+    python -m unittest discover -s source/tests -p "test_*.py" -v
+    ```
+    Yêu cầu bắt buộc: Toàn bộ 5 bộ test (`test_parser.py`, `test_state.py`, `test_search.py`, `test_heuristic.py`, `test_competitive.py`) phải hiển thị **`OK`**.
+  - Review và merge toàn bộ PR còn lại vào `main`. Tổ chức test chéo (Cross-Testing) để fix bug diện rộng và tối ưu hiệu năng.
+- **Ngày 12-13 (Tài Liệu & Báo Cáo):**
+  - **Cả nhóm:** Soạn Slide (áp dụng tỷ lệ 4:3) theo phần được phân công. Quay Video Demo (< 3 phút).
+- **Ngày 14 (Tổng duyệt & Nộp bài):**
+  - **Cả nhóm:** Chạy thử Q&A vấn đáp.
+  - **CẢNH BÁO NỘP BÀI:** Đề yêu cầu "All member must submit". Do đó, **TẤT CẢ 4 THÀNH VIÊN** đều phải tự đóng gói mã nguồn thành file zip riêng (tên `AI_midterm_<ID Nhóm>_<ID SV của mình>`) và tự nộp lên hệ thống. Không được để 1 người nộp thay.
+
+---
+
+## 🚀 Hướng Dẫn Cài Đặt & Chạy Ứng Dụng
+
+### 1. Cài đặt môi trường
+
+Khuyến nghị sử dụng Python 3.10 hoặc 3.11:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Chạy chương trình chính (Sokoban GUI):
+### 2. Chạy giải thuật đơn người chơi với giao diện Pygame (Single-Agent Mode)
+
 ```bash
-python source/main.py
+# Chạy với thuật toán A* Search (Mặc định)
+python source/main.py --map source/maps/example_map.txt --algorithm astar
+
+# Chạy với thuật toán UCS
+python source/main.py --map source/maps/example_map.txt --algorithm ucs
 ```
 
-### 3. Phím điều khiển giao diện:
-- `Space`: Tạm dừng / Tiếp tục phát lại (Pause / Play).
-- `→` (Mũi tên phải): Tiến 1 bước (Step forward).
-- `←` (Mũi tên trái): Lùi 1 bước (Step backward).
+*Điều khiển trên GUI:*
 
+- `Phím Space`: Tạm dừng / Tiếp tục chạy.
+- `Phím Mũi tên phải (→)`: Tiến 1 bước.
+- `Phím Mũi tên trái (←)`: Lùi 1 bước.
+
+### 3. Chạy chế độ thi đấu đối kháng 2 Agent (Competitive Two-Agent Mode)
+
+```bash
+python source/main.py --mode competitive --steps 100 --map source/maps/competitive_map.txt
+```
+
+### 4. Chạy bộ kiểm thử tự động (Unit Tests)
+
+```bash
+python -m unittest discover -s source/tests -p "test_*.py" -v
+```
+
+### 5. Chạy đo lường thực nghiệm Benchmark (So sánh UCS vs A*)
+
+```bash
+python -m source.experiment.benchmark
+```
